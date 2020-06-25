@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PizzaOrder.API.Extensions;
 using PizzaOrder.Data;
 
 namespace PizzaOrder.API
@@ -24,6 +25,9 @@ namespace PizzaOrder.API
             services.AddDbContext<PizzaDBContext>(
                 optionsAction: options => options.UseSqlServer(Configuration["ConnectionStrings:PizzaOrderDB"]),
                 contextLifetime: ServiceLifetime.Singleton);
+
+            services.AddCustomServices();
+            services.AddCustomGraphQLServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +51,9 @@ namespace PizzaOrder.API
 
             // Seed sample data...
             dbContext.EnsureDataSeeding();
+
+            app.UseWebSockets();
+            app.UseGraphQLPlayground();
         }
     }
 }
