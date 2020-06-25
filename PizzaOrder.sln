@@ -7,9 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.API", "PizzaOrde
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.Data", "PizzaOrder.Data\PizzaOrder.Data.csproj", "{18F2D2BE-0660-4EEC-AEEE-0DF034145086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaOrder.Business", "PizzaOrder.Business\PizzaOrder.Business.csproj", "{D3084E03-286C-4A50-AE7E-8BD2580C820C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.Business", "PizzaOrder.Business\PizzaOrder.Business.csproj", "{D3084E03-286C-4A50-AE7E-8BD2580C820C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaOrder.GraphQL.Models", "PizzaOrder.GraphQL.Models\PizzaOrder.GraphQL.Models.csproj", "{D5239D83-FA88-4D19-9E07-79E2E6F5D189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.GraphQLModels", "PizzaOrder.GraphQL.Models\PizzaOrder.GraphQLModels.csproj", "{D5239D83-FA88-4D19-9E07-79E2E6F5D189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

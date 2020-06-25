@@ -19,7 +19,7 @@
   <ItemGroup>
     <ProjectReference Include="..\PizzaOrder.Business\PizzaOrder.Business.csproj" />
     <ProjectReference Include="..\PizzaOrder.Data\PizzaOrder.Data.csproj" />
-    <ProjectReference Include="..\PizzaOrder.GraphQL.Models\PizzaOrder.GraphQL.Models.csproj" />
+    <ProjectReference Include="..\PizzaOrder.GraphQL.Models\PizzaOrder.GraphQLModels.csproj" />
   </ItemGroup>
 
 

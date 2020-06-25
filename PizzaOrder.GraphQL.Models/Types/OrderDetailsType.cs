@@ -1,8 +1,8 @@
 ﻿using GraphQL.Types;
 using PizzaOrder.Data.Entities;
-using PizzaOrder.GraphQL.Models.Enums;
+using PizzaOrder.GraphQLModels.Enums;
 
-namespace PizzaOrder.GraphQL.Models.Types
+namespace PizzaOrder.GraphQLModels.Types
 {
     public class OrderDetailsType : ObjectGraphType<OrderDetails>
     {

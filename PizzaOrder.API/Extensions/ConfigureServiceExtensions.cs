@@ -3,9 +3,12 @@ using GraphQL.Server;
 using Microsoft.Extensions.DependencyInjection;
 using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Business.Services;
-using PizzaOrder.GraphQL.Models.Enums;
-using PizzaOrder.GraphQL.Models.Types;
+using PizzaOrder.GraphQLModels.Enums;
+using PizzaOrder.GraphQLModels.Queries;
+using PizzaOrder.GraphQLModels.Schema;
+using PizzaOrder.GraphQLModels.Types;
 using System;
+using System.Security.Permissions;
 
 namespace PizzaOrder.API.Extensions
 {
@@ -30,7 +33,8 @@ namespace PizzaOrder.API.Extensions
                 };
             })
             .AddWebSockets()
-            .AddDataLoader();
+            .AddDataLoader()
+            .AddGraphTypes(typeof(PizzaOrderSchema));
         }
 
         public static void AddCustomGraphQLTypes(this IServiceCollection services)
@@ -40,6 +44,9 @@ namespace PizzaOrder.API.Extensions
 
             services.AddSingleton<OrderStatusEnumType>();
             services.AddSingleton<ToppingsEnumType>();
+
+            services.AddSingleton<PizzaOrderQuery>();
+            services.AddSingleton<PizzaOrderSchema>();
         }
     }
 }

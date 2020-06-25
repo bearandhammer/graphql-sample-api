@@ -1,11 +1,14 @@
+using GraphQL.Server;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using PizzaOrder.API.Extensions;
 using PizzaOrder.Data;
+using PizzaOrder.GraphQLModels.Schema;
 
 namespace PizzaOrder.API
 {
@@ -21,6 +24,17 @@ namespace PizzaOrder.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // For Async IO Operations
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AllowSynchronousIO = true;
+            });
+
+            services.Configure<KestrelServerOptions>(options => 
+            {
+                options.AllowSynchronousIO = true;
+            });
+
             services.AddControllers();
             services.AddDbContext<PizzaDBContext>(
                 optionsAction: options => options.UseSqlServer(Configuration["ConnectionStrings:PizzaOrderDB"]),
@@ -54,6 +68,9 @@ namespace PizzaOrder.API
             dbContext.EnsureDataSeeding();
 
             app.UseWebSockets();
+
+            app.UseGraphQL<PizzaOrderSchema>();
+            app.UseGraphQLWebSockets<PizzaOrderSchema>();
             app.UseGraphQLPlayground();
         }
     }

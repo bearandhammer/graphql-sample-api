@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PizzaOrder.GraphQL.Models.Types
+namespace PizzaOrder.GraphQLModels.Types
 {
     public class PizzaDetailsType : ObjectGraphType<PizzaDetails>
     {

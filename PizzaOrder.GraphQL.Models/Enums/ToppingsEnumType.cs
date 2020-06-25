@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace PizzaOrder.GraphQL.Models.Enums
+namespace PizzaOrder.GraphQLModels.Enums
 {
     public class ToppingsEnumType : EnumerationGraphType<Toppings>
     {
