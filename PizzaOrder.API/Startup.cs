@@ -28,6 +28,7 @@ namespace PizzaOrder.API
 
             services.AddCustomServices();
             services.AddCustomGraphQLServices();
+            services.AddCustomGraphQLTypes();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
