@@ -5,7 +5,11 @@ VisualStudioVersion = 16.0.30104.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.API", "PizzaOrder.API\PizzaOrder.API.csproj", "{86E83164-A99F-4762-A130-EE0D147A2909}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PizzaOrder.Data", "PizzaOrder.Data\PizzaOrder.Data.csproj", "{18F2D2BE-0660-4EEC-AEEE-0DF034145086}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.Data", "PizzaOrder.Data\PizzaOrder.Data.csproj", "{18F2D2BE-0660-4EEC-AEEE-0DF034145086}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.Business", "PizzaOrder.Business\PizzaOrder.Business.csproj", "{D3084E03-286C-4A50-AE7E-8BD2580C820C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PizzaOrder.GraphQLModels", "PizzaOrder.GraphQL.Models\PizzaOrder.GraphQLModels.csproj", "{D5239D83-FA88-4D19-9E07-79E2E6F5D189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{18F2D2BE-0660-4EEC-AEEE-0DF034145086}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18F2D2BE-0660-4EEC-AEEE-0DF034145086}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18F2D2BE-0660-4EEC-AEEE-0DF034145086}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3084E03-286C-4A50-AE7E-8BD2580C820C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3084E03-286C-4A50-AE7E-8BD2580C820C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3084E03-286C-4A50-AE7E-8BD2580C820C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3084E03-286C-4A50-AE7E-8BD2580C820C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5239D83-FA88-4D19-9E07-79E2E6F5D189}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5239D83-FA88-4D19-9E07-79E2E6F5D189}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5239D83-FA88-4D19-9E07-79E2E6F5D189}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5239D83-FA88-4D19-9E07-79E2E6F5D189}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
