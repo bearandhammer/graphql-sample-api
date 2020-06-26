@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PizzaOrder.Data.Entities;
 
 namespace PizzaOrder.Data
 {
-    public class PizzaDBContext : DbContext
+    public class PizzaDBContext : IdentityDbContext
     {
         public PizzaDBContext()
         {
