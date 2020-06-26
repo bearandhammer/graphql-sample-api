@@ -21,7 +21,7 @@ namespace PizzaOrder.Data.Entities
         public Toppings Toppings { get; set; }
 
         [Required]
-        public int Price { get; set; }
+        public double Price { get; set; }
 
         [Required]
         public int Size { get; set; }
@@ -36,7 +36,7 @@ namespace PizzaOrder.Data.Entities
         public PizzaDetails(
             string name,
             Toppings toppings,
-            int price,
+            double price,
             int size,
             int orderDetailsId)
         {

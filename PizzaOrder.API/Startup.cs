@@ -40,6 +40,10 @@ namespace PizzaOrder.API
                 optionsAction: options => options.UseSqlServer(Configuration["ConnectionStrings:PizzaOrderDB"]),
                 contextLifetime: ServiceLifetime.Singleton);
 
+            services.AddCustomIdentityAuth();
+            services.AddCustomJWT(Configuration);
+            services.AddCustomGraphQLAuth();
+
             services.AddCustomServices();
             services.AddCustomGraphQLServices();
             services.AddCustomGraphQLTypes();
@@ -58,6 +62,7 @@ namespace PizzaOrder.API
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
