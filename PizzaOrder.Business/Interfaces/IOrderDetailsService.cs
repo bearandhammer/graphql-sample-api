@@ -1,4 +1,5 @@
-﻿using PizzaOrder.Data.Entities;
+﻿using PizzaOrder.Business.Models;
+using PizzaOrder.Data.Entities;
 using PizzaOrder.Data.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,5 +15,7 @@ namespace PizzaOrder.Business.Interfaces
         Task<OrderDetails> GetOrderDetailsAsync(int orderId);
 
         Task<OrderDetails> UpdateStatusAsync(int orderId, OrderStatus orderStatus);
+
+        Task<PageResponse<OrderDetails>> GetCompletedOrdersAsync(PageRequest pageRequest);
     }
 }

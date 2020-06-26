@@ -51,10 +51,13 @@ namespace PizzaOrder.API.Extensions
             // Supported Enums
             services.AddSingleton<OrderStatusEnumType>();
             services.AddSingleton<ToppingsEnumType>();
+            services.AddSingleton<CompletedOrdersSortingFieldsEnumType>();
+            services.AddSingleton<SortingDirectionEnumType>();
 
             // Input Types
             services.AddSingleton<OrderDetailsInputType>();
             services.AddSingleton<PizzaDetailsInputType>();
+            services.AddSingleton<CompletedOrderOrderByInputType>();
 
             // Queries/Mutations
             services.AddSingleton<PizzaOrderQuery>();
