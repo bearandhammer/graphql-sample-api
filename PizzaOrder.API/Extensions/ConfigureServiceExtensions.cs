@@ -8,8 +8,10 @@ using PizzaOrder.GraphQLModels.InputTypes;
 using PizzaOrder.GraphQLModels.Mutation;
 using PizzaOrder.GraphQLModels.Queries;
 using PizzaOrder.GraphQLModels.Schema;
+using PizzaOrder.GraphQLModels.Subscriptions;
 using PizzaOrder.GraphQLModels.Types;
 using System;
+using GraphQL.Server.Transports.AspNetCore;
 
 namespace PizzaOrder.API.Extensions
 {
@@ -19,6 +21,7 @@ namespace PizzaOrder.API.Extensions
         {
             services.AddTransient<IPizzaDetailsService, PizzaDetailsService>();
             services.AddTransient<IOrderDetailsService, OrderDetailsService>();
+            services.AddTransient<IEventService, EventService>();
         }
 
         public static void AddCustomGraphQLServices(this IServiceCollection services)
@@ -43,6 +46,7 @@ namespace PizzaOrder.API.Extensions
             // Types
             services.AddSingleton<OrderDetailsType>();
             services.AddSingleton<PizzaDetailsType>();
+            services.AddSingleton<EventDataType>();
 
             // Supported Enums
             services.AddSingleton<OrderStatusEnumType>();
@@ -58,6 +62,9 @@ namespace PizzaOrder.API.Extensions
 
             // Physical Schema
             services.AddSingleton<PizzaOrderSchema>();
+
+            // Subscriptions
+            services.AddSingleton<PizzaOrderSubscription>();
         }
     }
 }

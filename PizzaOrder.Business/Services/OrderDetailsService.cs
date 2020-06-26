@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PizzaOrder.Business.Interfaces;
+using PizzaOrder.Business.Models;
 using PizzaOrder.Data;
 using PizzaOrder.Data.Entities;
 using PizzaOrder.Data.Enums;
@@ -12,10 +13,12 @@ namespace PizzaOrder.Business.Services
     public class OrderDetailsService : IOrderDetailsService
     {
         private readonly PizzaDBContext dbContext;
+        private readonly IEventService eventService;
 
-        public OrderDetailsService(PizzaDBContext context)
+        public OrderDetailsService(PizzaDBContext context, IEventService evService)
         {
             dbContext = context;
+            eventService = evService;
         }
 
         public async Task<IEnumerable<OrderDetails>> GetAllNewOrdersAsync()
@@ -35,6 +38,9 @@ namespace PizzaOrder.Business.Services
             dbContext.OrderDetails.Add(orderDetails);
             await dbContext.SaveChangesAsync();
 
+            // Trigger events for any subscriptions...
+            eventService.AddOrderEvent(new EventDataModel(orderDetails.Id));
+
             return orderDetails;
         }
 
@@ -46,6 +52,8 @@ namespace PizzaOrder.Business.Services
             {
                 discoveredOrder.OrderStatus = orderStatus;
                 await dbContext.SaveChangesAsync();
+
+                eventService.StatusUpdateEvent(new EventDataModel(orderId, orderStatus));
             }
 
             return discoveredOrder;
