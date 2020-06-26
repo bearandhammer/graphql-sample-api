@@ -42,6 +42,7 @@ namespace PizzaOrder.API
 
             services.AddCustomIdentityAuth();
             services.AddCustomJWT(Configuration);
+            services.AddCustomGraphQLAuth();
 
             services.AddCustomServices();
             services.AddCustomGraphQLServices();

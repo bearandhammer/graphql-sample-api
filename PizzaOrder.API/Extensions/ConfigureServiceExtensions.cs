@@ -1,13 +1,19 @@
 ﻿using GraphQL;
+using GraphQL.Authorization;
 using GraphQL.Server;
+using GraphQL.Validation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
+using PizzaOrder.Business.Helpers;
 using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Business.Services;
 using PizzaOrder.Data;
+using PizzaOrder.GraphQLModels;
 using PizzaOrder.GraphQLModels.Enums;
 using PizzaOrder.GraphQLModels.InputTypes;
 using PizzaOrder.GraphQLModels.Mutation;
@@ -17,6 +23,7 @@ using PizzaOrder.GraphQLModels.Subscriptions;
 using PizzaOrder.GraphQLModels.Types;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace PizzaOrder.API.Extensions
 {
@@ -90,12 +97,13 @@ namespace PizzaOrder.API.Extensions
             services.AddGraphQL(options =>
             {
                 options.EnableMetrics = true;
-                options.ExposeExceptions = false;                   // false prints messages only, true will ToString()
+                options.ExposeExceptions = true;                   // false prints messages only, true will ToString()
                 options.UnhandledExceptionDelegate = context =>
                 {
                     Console.WriteLine("Error: " + context.OriginalException.Message);
                 };
             })
+            .AddUserContextBuilder(httpContext => new GraphQLUserContext { User = httpContext.User })
             .AddWebSockets()
             .AddDataLoader()
             .AddGraphTypes(typeof(PizzaOrderSchema));
@@ -128,6 +136,32 @@ namespace PizzaOrder.API.Extensions
 
             // Subscriptions
             services.AddSingleton<PizzaOrderSubscription>();
+        }
+
+        public static void AddCustomGraphQLAuth(this IServiceCollection services)
+        {
+            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.TryAddSingleton<IAuthorizationEvaluator, AuthorizationEvaluator>();
+            services.AddTransient<IValidationRule, AuthorizationValidationRule>();
+
+            services.TryAddSingleton(_ =>
+            {
+                AuthorizationSettings authSettings = new AuthorizationSettings();
+
+                authSettings.AddPolicy(
+                    AuthPolicy.CustomerPolicy,
+                    policy => policy.RequireClaim(ClaimTypes.Role, Roles.Customer));
+
+                authSettings.AddPolicy(
+                    AuthPolicy.RestaurantPolicy,
+                    policy => policy.RequireClaim(ClaimTypes.Role, Roles.Restaurant));
+
+                authSettings.AddPolicy(
+                    AuthPolicy.AdminPolicy,
+                    policy => policy.RequireClaim(ClaimTypes.Role, Roles.Customer, Roles.Restaurant, Roles.Admin));
+
+                return authSettings;
+            });
         }
     }
 }

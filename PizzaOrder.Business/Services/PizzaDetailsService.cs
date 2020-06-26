@@ -1,6 +1,7 @@
 ﻿using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Data;
 using PizzaOrder.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -54,6 +55,22 @@ namespace PizzaOrder.Business.Services
             }
 
             return 0;
+        }
+
+        public PizzaDetails GetPizzaDetailsOrError()
+        {
+            // Random error testing!
+            bool generateError = (DateTime.Now.Millisecond % 2 == 0);
+            if (generateError)
+            {
+                throw new Exception("Oops, a sporadic error has occurred.");
+            }
+
+            return new PizzaDetails
+            {
+                Id = 1,
+                Name = "A Working Pizza" 
+            };
         }
     }
 }

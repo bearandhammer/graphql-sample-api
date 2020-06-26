@@ -1,4 +1,6 @@
-﻿using GraphQL.Types;
+﻿using GraphQL;
+using GraphQL.Authorization;
+using GraphQL.Types;
 using GraphQL.Types.Relay.DataObjects;
 using PizzaOrder.Business.Enums;
 using PizzaOrder.Business.Helpers;
@@ -7,7 +9,6 @@ using PizzaOrder.Business.Models;
 using PizzaOrder.Data.Entities;
 using PizzaOrder.GraphQLModels.InputTypes;
 using PizzaOrder.GraphQLModels.Types;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -18,10 +19,12 @@ namespace PizzaOrder.GraphQLModels.Queries
         public PizzaOrderQuery(IOrderDetailsService orderDetailsService, IPizzaDetailsService pizzaDetailsService)
         {
             Name = nameof(PizzaOrderQuery);
+            this.AuthorizeWith(AuthPolicy.CustomerPolicy);
 
             FieldAsync<ListGraphType<OrderDetailsType>>(
                 name: "newOrders",
-                resolve: async context => await orderDetailsService.GetAllNewOrdersAsync());
+                resolve: async context => await orderDetailsService.GetAllNewOrdersAsync())
+            .AuthorizeWith(AuthPolicy.RestaurantPolicy);
 
             FieldAsync<PizzaDetailsType>(
                 name: "pizzaDetails",
@@ -33,7 +36,8 @@ namespace PizzaOrder.GraphQLModels.Queries
                 name: "orderDetails",
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context => await orderDetailsService.GetOrderDetailsAsync(
-                    context.GetArgument<int>("id")));
+                    context.GetArgument<int>("id")))
+            .AuthorizeWith(AuthPolicy.AdminPolicy);
 
             Connection<OrderDetailsType>()
                 .Name("completedOrder")
@@ -51,7 +55,7 @@ namespace PizzaOrder.GraphQLModels.Queries
                         OrderBy = context.GetArgument<SortingDetails<CompletedOrdersSortingFields>>("orderBy")
                     };
 
-                    PageResponse<OrderDetails> pageResponse  = await orderDetailsService.GetCompletedOrdersAsync(pageRequest);
+                    PageResponse<OrderDetails> pageResponse = await orderDetailsService.GetCompletedOrdersAsync(pageRequest);
 
                     if (pageResponse.TotalCount == 0)
                     {
@@ -85,6 +89,24 @@ namespace PizzaOrder.GraphQLModels.Queries
                     };
 
                     return connection;
+                });
+
+            Field<PizzaDetailsType>(
+                name: "exceptionDemo",
+                resolve: context =>
+                {
+                    Dictionary<string, string> data = new Dictionary<string, string>
+                    {
+                        { "Key", "Value" }
+                    };
+
+                    ExecutionError ex = new ExecutionError("A helpful error message", data);
+
+                    // Fictitious!
+                    ex.AddLocation(20, 50);
+                    context.Errors.Add(ex);
+
+                    return pizzaDetailsService.GetPizzaDetailsOrError();
                 });
         }
     }
