@@ -1,9 +1,8 @@
 ﻿using GraphQL.Types;
-using PizzaOrder.Data.Enums;
 
 namespace PizzaOrder.GraphQLModels.Enums
 {
-    public class OrderStatusEnumType : EnumerationGraphType<OrderStatus>
+    public class OrderStatusEnumType : EnumerationGraphType
     {
         public OrderStatusEnumType()
         {

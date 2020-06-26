@@ -2,6 +2,8 @@
 using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Business.Models;
 using PizzaOrder.Data.Entities;
+using PizzaOrder.Data.Enums;
+using PizzaOrder.GraphQLModels.Enums;
 using PizzaOrder.GraphQLModels.InputTypes;
 using PizzaOrder.GraphQLModels.Types;
 using System.Collections.Generic;
@@ -17,10 +19,12 @@ namespace PizzaOrder.GraphQLModels.Mutation
 
             FieldAsync<OrderDetailsType>(
                 name: "createOrder",
-                arguments: new QueryArguments(new QueryArgument<NonNullGraphType<OrderDetailsInputType>>
-                {
-                    Name = "orderDetails"
-                }),
+                arguments: 
+                    new QueryArguments(
+                        new QueryArgument<NonNullGraphType<OrderDetailsInputType>>
+                        {
+                            Name = "orderDetails"
+                        }),
                 resolve: async context =>
                 {
                     OrderDetailsModel order = context.GetArgument<OrderDetailsModel>("orderDetails");
@@ -39,6 +43,43 @@ namespace PizzaOrder.GraphQLModels.Mutation
                     newOrder.PizzaDetails = newPizzaDetails.ToList();
 
                     return newOrder;
+                });
+
+            FieldAsync<OrderDetailsType>(
+                name: "updateStatus",
+                arguments: 
+                    new QueryArguments(
+                        new QueryArgument<NonNullGraphType<IntGraphType>>
+                        {
+                            Name = "id"
+                        },
+                        new QueryArgument<NonNullGraphType<OrderStatusEnumType>> 
+                        { 
+                            Name = "status"
+                        }),
+                resolve: async context =>
+                {
+                    int orderId = context.GetArgument<int>("id");
+                    OrderStatus orderStatus = context.GetArgument<OrderStatus>("status");
+
+                    return await orderDetailsService.UpdateStatusAsync(orderId, orderStatus);
+                });
+
+            FieldAsync<OrderDetailsType>(
+                name: "deletePizzaDetails",
+                arguments:
+                    new QueryArguments(
+                        new QueryArgument<NonNullGraphType<IntGraphType>>
+                        {
+                            Name = "pizzaDetailsId"
+                        }),
+                resolve: async context =>
+                {
+                    int pizzaDetailsId = context.GetArgument<int>("pizzaDetailsId");
+
+                    int orderId = await pizzaDetailsService.DeletePizzaDetailsAsync(pizzaDetailsId);
+
+                    return await orderDetailsService.GetOrderDetailsAsync(orderId);
                 });
         }
     }

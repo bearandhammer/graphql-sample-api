@@ -11,5 +11,7 @@ namespace PizzaOrder.Business.Interfaces
         IEnumerable<PizzaDetails> GetAllPizzaDetailsForOrder(int orderId);
 
         Task<IEnumerable<PizzaDetails>> CreateBulkAsync(IEnumerable<PizzaDetails> pizzaDetails, int orderId);
+
+        Task<int> DeletePizzaDetailsAsync(int pizzaDetailsId);
     }
 }

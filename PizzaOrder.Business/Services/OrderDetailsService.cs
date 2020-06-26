@@ -37,5 +37,18 @@ namespace PizzaOrder.Business.Services
 
             return orderDetails;
         }
+
+        public async Task<OrderDetails> UpdateStatusAsync(int orderId, OrderStatus orderStatus)
+        {
+            OrderDetails discoveredOrder = await dbContext.OrderDetails.FindAsync(orderId);
+
+            if (discoveredOrder != null)
+            {
+                discoveredOrder.OrderStatus = orderStatus;
+                await dbContext.SaveChangesAsync();
+            }
+
+            return discoveredOrder;
+        }
     }
 }

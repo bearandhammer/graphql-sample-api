@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PizzaOrder.Business.Interfaces;
+﻿using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Data;
 using PizzaOrder.Data.Entities;
 using System.Collections.Generic;
@@ -38,6 +37,23 @@ namespace PizzaOrder.Business.Services
             await dbContext.SaveChangesAsync();
 
             return dbContext.PizzaDetails.Where(x => x.OrderDetailsId == orderId);
+        }
+
+        public async Task<int> DeletePizzaDetailsAsync(int pizzaDetailsId)
+        {
+            PizzaDetails pizzaDetails = await dbContext.PizzaDetails.FindAsync(pizzaDetailsId);
+
+            if (pizzaDetails != null)
+            {
+                int orderId = pizzaDetails.OrderDetailsId;
+
+                dbContext.PizzaDetails.Remove(pizzaDetails);
+                await dbContext.SaveChangesAsync();
+
+                return orderId;
+            }
+
+            return 0;
         }
     }
 }
