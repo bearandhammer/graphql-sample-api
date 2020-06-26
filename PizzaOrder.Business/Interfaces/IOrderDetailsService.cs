@@ -7,5 +7,7 @@ namespace PizzaOrder.Business.Interfaces
     public interface IOrderDetailsService
     {
         Task<IEnumerable<OrderDetails>> GetAllNewOrdersAsync();
+
+        Task<OrderDetails> GetOrderDetailsAsync(int orderId);
     }
 }

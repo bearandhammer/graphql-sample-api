@@ -19,6 +19,12 @@ namespace PizzaOrder.GraphQLModels.Queries
                 arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
                 resolve: async context => await pizzaDetailsService.GetPizzaDetailsAsync(
                     context.GetArgument<int>("id")));
+
+            FieldAsync<OrderDetailsType>(
+                name: "orderDetails",
+                arguments: new QueryArguments(new QueryArgument<IntGraphType> { Name = "id" }),
+                resolve: async context => await orderDetailsService.GetOrderDetailsAsync(
+                    context.GetArgument<int>("id")));
         }
     }
 }

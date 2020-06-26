@@ -24,5 +24,10 @@ namespace PizzaOrder.Business.Services
                 .Where(x => x.OrderStatus == OrderStatus.Created)
                 .ToListAsync();
         }
+
+        public async Task<OrderDetails> GetOrderDetailsAsync(int orderId)
+        {
+            return await dbContext.OrderDetails.FindAsync(orderId);
+        }
     }
 }

@@ -1,6 +1,9 @@
-﻿using PizzaOrder.Business.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Data;
 using PizzaOrder.Data.Entities;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PizzaOrder.Business.Services
@@ -18,6 +21,13 @@ namespace PizzaOrder.Business.Services
         {
             return await dbContext.PizzaDetails
                 .FindAsync(pizzaDetailsId);
+        }
+
+        public IEnumerable<PizzaDetails> GetAllPizzaDetailsForOrder(int orderId)
+        {
+            return dbContext.PizzaDetails
+                .Where(x => x.OrderDetailsId == orderId)
+                .ToList();
         }
     }
 }

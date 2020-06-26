@@ -1,4 +1,5 @@
 ﻿using GraphQL.Types;
+using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Data.Entities;
 using PizzaOrder.GraphQLModels.Enums;
 
@@ -6,7 +7,7 @@ namespace PizzaOrder.GraphQLModels.Types
 {
     public class OrderDetailsType : ObjectGraphType<OrderDetails>
     {
-        public OrderDetailsType()
+        public OrderDetailsType(IPizzaDetailsService pizzaDetailsService)
         {
             Name = nameof(OrderDetailsType);
             Field(x => x.Id);
@@ -18,6 +19,11 @@ namespace PizzaOrder.GraphQLModels.Types
             Field<OrderStatusEnumType>(
                 name: "orderStatus",
                 resolve: context => context.Source.OrderStatus.ToString());
+
+            Field<ListGraphType<PizzaDetailsType>>(
+                name: "pizzaDetails",
+                resolve: context => pizzaDetailsService.GetAllPizzaDetailsForOrder(
+                    context.Source.Id));
         }
     }
 }
