@@ -9,5 +9,7 @@ namespace PizzaOrder.Business.Interfaces
         Task<PizzaDetails> GetPizzaDetailsAsync(int pizzaDetailsId);
 
         IEnumerable<PizzaDetails> GetAllPizzaDetailsForOrder(int orderId);
+
+        Task<IEnumerable<PizzaDetails>> CreateBulkAsync(IEnumerable<PizzaDetails> pizzaDetails, int orderId);
     }
 }

@@ -29,5 +29,13 @@ namespace PizzaOrder.Business.Services
         {
             return await dbContext.OrderDetails.FindAsync(orderId);
         }
+
+        public async Task<OrderDetails> CreateAsync(OrderDetails orderDetails)
+        {
+            dbContext.OrderDetails.Add(orderDetails);
+            await dbContext.SaveChangesAsync();
+
+            return orderDetails;
+        }
     }
 }

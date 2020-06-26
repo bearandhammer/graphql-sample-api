@@ -29,5 +29,15 @@ namespace PizzaOrder.Business.Services
                 .Where(x => x.OrderDetailsId == orderId)
                 .ToList();
         }
+
+        public async Task<IEnumerable<PizzaDetails>> CreateBulkAsync(
+            IEnumerable<PizzaDetails> pizzaDetails,
+            int orderId)
+        {
+            await dbContext.PizzaDetails.AddRangeAsync(pizzaDetails);
+            await dbContext.SaveChangesAsync();
+
+            return dbContext.PizzaDetails.Where(x => x.OrderDetailsId == orderId);
+        }
     }
 }
