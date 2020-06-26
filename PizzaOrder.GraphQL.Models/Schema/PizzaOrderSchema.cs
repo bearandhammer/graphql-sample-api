@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using PizzaOrder.GraphQLModels.Mutation;
 using PizzaOrder.GraphQLModels.Queries;
 using System;
 
@@ -11,6 +12,7 @@ namespace PizzaOrder.GraphQLModels.Schema
         {
             Services = services;
             Query = services.GetService<PizzaOrderQuery>();
+            Mutation = services.GetService<PizzaOrderMutation>();
         }
     }
 }
