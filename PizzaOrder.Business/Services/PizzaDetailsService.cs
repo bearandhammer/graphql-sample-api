@@ -1,5 +1,7 @@
 ﻿using PizzaOrder.Business.Interfaces;
 using PizzaOrder.Data;
+using PizzaOrder.Data.Entities;
+using System.Threading.Tasks;
 
 namespace PizzaOrder.Business.Services
 {
@@ -10,6 +12,12 @@ namespace PizzaOrder.Business.Services
         public PizzaDetailsService(PizzaDBContext context)
         {
             dbContext = context;
+        }
+
+        public async Task<PizzaDetails> GetPizzaDetailsAsync(int pizzaDetailsId)
+        {
+            return await dbContext.PizzaDetails
+                .FindAsync(pizzaDetailsId);
         }
     }
 }
